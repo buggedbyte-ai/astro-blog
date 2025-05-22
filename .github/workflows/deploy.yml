@@ -1,4 +1,4 @@
-name: Yet another deploy to GitHub Pages
+name: PLEASE deploy to GitHub Pages
 
 on:
   push:
@@ -37,6 +37,11 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Create .nojekyll file
+        run: |
+          touch ./dist/.nojekyll
+          echo "Created .nojekyll file"
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
@@ -44,9 +49,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
-          
-      - name: Ensure .nojekyll exists
-        run: touch ./dist/.nojekyll
 
   deploy:
     environment:
