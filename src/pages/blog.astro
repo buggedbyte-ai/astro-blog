@@ -1,0 +1,107 @@
+---
+import BlogLayout from '../layouts/BlogLayout.astro';
+import BlogPost from '../components/BlogPost.astro';
+import BlogFilter from '../components/BlogFilter.astro';
+import { getCollection } from 'astro:content';
+
+// Get all posts and sort by date for initial page load
+const posts = await getCollection('posts');
+console.log('Found posts:', posts.map(p => ({
+  slug: p.slug,
+  title: p.data.title,
+  date: p.data.date
+})));
+
+const sortedPosts = [...posts].sort((a, b) => {
+  const dateA = new Date(a.data.date).getTime();
+  const dateB = new Date(b.data.date).getTime();
+  return dateB - dateA;
+});
+---
+
+<BlogLayout>
+  <section class="hero">
+    <h1>Latest Articles</h1>
+    <p>Explore thoughts, insights, and discoveries from our collection of articles</p>
+  </section>
+
+  <BlogFilter currentSort="newest" />
+
+  <div class="blog-grid">
+    {sortedPosts.map((post) => (
+      <BlogPost 
+        id={post.data.id}
+        title={post.data.title} 
+        content={post.body}
+        description={post.data.description}
+        date={post.data.date}
+        featured={post.data.featured}
+        slug={post.slug}
+      />
+    ))}
+  </div>
+</BlogLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: 4rem 1rem;
+    max-width: 48rem;
+    margin: 0 auto 3rem;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    background: linear-gradient(to right, var(--color-primary), var(--color-primary-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero p {
+    font-size: 1.25rem;
+    color: var(--color-text-light);
+  }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;  /* Reduced from 4rem to match the spacing above */
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  @media (max-width: 768px) {
+    .blog-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 0;
+      margin: 0 auto;
+      transition: opacity 0.3s ease;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero {
+      padding: 2rem 1rem;
+    }
+
+    .hero h1 {
+      font-size: 2rem;
+    }
+
+    .hero p {
+      font-size: 1rem;
+    }
+
+    .blog-grid {
+      gap: 2rem;
+      padding: 0;
+    }
+  }
+</style>

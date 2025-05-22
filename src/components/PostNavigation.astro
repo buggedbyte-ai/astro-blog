@@ -1,0 +1,58 @@
+---
+const { previousPost, nextPost } = Astro.props;
+---
+
+<nav style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 4rem; margin-bottom: 2rem;">
+  {previousPost && (
+    <a 
+      href={`/posts/${previousPost.slug}`}
+      style="background-color: #483AA0; flex: 1; padding: 1.5rem; border-radius: 1rem; color: white; text-decoration: none; transition: transform 0.2s ease; display: flex; align-items: center; gap: 1rem;"
+      onmouseover="this.style.transform='translateX(-4px)'"
+      onmouseout="this.style.transform='translateX(0)'"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      <div style="min-width: 0;">
+        <div style="font-size: 0.875rem; opacity: 0.8; margin-bottom: 0.25rem;">Previous Post</div>
+        <div style="font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+          {previousPost.title}
+        </div>
+      </div>
+    </a>
+  )}
+  
+  {nextPost && (
+    <a 
+      href={`/posts/${nextPost.slug}`}
+      style="background-color: #483AA0; flex: 1; padding: 1.5rem; border-radius: 1rem; color: white; text-decoration: none; transition: transform 0.2s ease; display: flex; align-items: center; gap: 1rem; text-align: right; flex-direction: row-reverse;"
+      onmouseover="this.style.transform='translateX(4px)'"
+      onmouseout="this.style.transform='translateX(0)'"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+      <div style="min-width: 0;">
+        <div style="font-size: 0.875rem; opacity: 0.8; margin-bottom: 0.25rem;">Next Post</div>
+        <div style="font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+          {nextPost.title}
+        </div>
+      </div>
+    </a>
+  )}
+</nav>
+
+<style>
+  @media (max-width: 640px) {
+    nav {
+      flex-direction: column;
+      padding: 0 1rem;
+    }
+    
+    a {
+      width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,114 @@
+---
+import { getCollection } from 'astro:content';
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import PostNavigation from '../../components/PostNavigation.astro';
+
+// Generate static paths for all posts
+export async function getStaticPaths() {
+    const posts = await getCollection('posts');
+    const sortedPosts = [...posts].sort((a, b) => {
+        return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+    });
+
+    return sortedPosts.map((post, index) => {
+        return {
+            params: { slug: post.slug },
+            props: { 
+                post,
+                prevPost: sortedPosts[index + 1],
+                nextPost: sortedPosts[index - 1]
+            },
+        };
+    });
+}
+
+const { post, prevPost, nextPost } = Astro.props;
+const { Content } = await post.render();
+---
+
+<BlogLayout>
+  <article style="background-color: #483AA0; border-radius: 1.5rem; padding: 2rem; color: white; max-width: 48rem; margin: 0 auto;">
+    <header style="text-align: center; margin-bottom: 3rem;">
+      <time datetime={post.data.date} style="font-size: 0.875rem; opacity: 0.8;">
+        {new Date(post.data.date).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })}
+      </time>
+      <h1 style="font-size: 2.5rem; font-weight: 700; margin: 1rem 0; line-height: 1.2; color: white;">
+        {post.data.title}
+      </h1>
+      <div style="font-size: 0.875rem; opacity: 0.8;">
+        {Math.ceil(post.body.split(' ').length / 200)} min read
+      </div>
+    </header>
+    
+    <div class="content">
+      <Content />
+    </div>
+  </article>
+  
+  <PostNavigation 
+    previousPost={prevPost?.data}
+    nextPost={nextPost?.data}
+  />
+</BlogLayout>
+
+<style>
+  .content {
+    line-height: 1.8;
+    font-size: 1.125rem;
+  }
+
+  .content :global(h1),
+  .content :global(h2),
+  .content :global(h3),
+  .content :global(h4),
+  .content :global(h5),
+  .content :global(h6) {
+    margin: 1.5em 0 0.5em;
+    line-height: 1.2;
+  }
+
+  .content :global(p) {
+    margin-bottom: 1.5rem;
+  }
+
+  .content :global(ul),
+  .content :global(ol) {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+  }
+
+  .content :global(li) {
+    margin: 0.5rem 0;
+  }
+
+  .content :global(a) {
+    color: #EC4899;
+    text-decoration: none;
+  }
+
+  .content :global(a:hover) {
+    text-decoration: underline;
+  }
+
+  .content :global(blockquote) {
+    border-left: 4px solid #EC4899;
+    margin: 1.5rem 0;
+    padding-left: 1rem;
+    font-style: italic;
+  }
+
+  @media (max-width: 640px) {
+    article {
+      border-radius: 0;
+      padding: 1.5rem;
+    }
+    
+    h1 {
+      font-size: 2rem !important;
+    }
+  }
+</style>
