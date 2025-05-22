@@ -5,7 +5,7 @@ const { previousPost, nextPost } = Astro.props;
 <nav style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 4rem; margin-bottom: 2rem;">
   {previousPost && (
     <a 
-      href={`/posts/${previousPost.slug}`}
+      href={`/astro-blog/posts/${previousPost.slug}`}
       style="background-color: #483AA0; flex: 1; padding: 1.5rem; border-radius: 1rem; color: white; text-decoration: none; transition: transform 0.2s ease; display: flex; align-items: center; gap: 1rem;"
       onmouseover="this.style.transform='translateX(-4px)'"
       onmouseout="this.style.transform='translateX(0)'"
@@ -25,7 +25,7 @@ const { previousPost, nextPost } = Astro.props;
   
   {nextPost && (
     <a 
-      href={`/posts/${nextPost.slug}`}
+      href={`/astro-blog/posts/${nextPost.slug}`}
       style="background-color: #483AA0; flex: 1; padding: 1.5rem; border-radius: 1rem; color: white; text-decoration: none; transition: transform 0.2s ease; display: flex; align-items: center; gap: 1rem; text-align: right; flex-direction: row-reverse;"
       onmouseover="this.style.transform='translateX(4px)'"
       onmouseout="this.style.transform='translateX(0)'"

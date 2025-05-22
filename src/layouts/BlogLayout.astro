@@ -1,6 +1,8 @@
 ---
 const pathname = Astro.url.pathname;
 import ThemeSwitch from '../components/ThemeSwitch.astro';
+
+const base = import.meta.env.BASE_URL;
 ---
 
 <html lang="en">
@@ -32,8 +34,8 @@ import ThemeSwitch from '../components/ThemeSwitch.astro';
       <div class="header__container">
         <a href="/" class="logo">Silent Words</a>
         <nav>
-          <a href="/" class:list={["nav-link", { active: pathname === "/" }]}>Home</a>
-          <a href="/blog" class:list={["nav-link", { active: pathname === "/blog" }]}>Blog</a>
+          <a href={base + "/"} class:list={["nav-link", { active: pathname === base + "/" }]}>Home</a>
+          <a href={base + "/blog"} class:list={["nav-link", { active: pathname === base + "/blog" }]}>Blog</a>
         </nav>
         <ThemeSwitch />
       </div>

@@ -18,7 +18,7 @@ const featuredPosts = sortedPosts.filter(post => post.data.featured).slice(0, 2)
       <h1>Welcome to Silent Words</h1>
       <p>A space where thoughts flow freely and ideas come to life. Discover stories, insights, and perspectives that inspire.</p>
       <div class="hero__cta">
-        <a href="/blog" class="button button--primary">Explore Articles</a>
+        <a href="/astro-blog/blog" class="button button--primary">Explore Articles</a>
         <a href="#featured" class="button button--secondary">Featured Posts</a>
       </div>
     </div>
@@ -51,7 +51,7 @@ const featuredPosts = sortedPosts.filter(post => post.data.featured).slice(0, 2)
           </div>
           <div style="display: flex; justify-content: flex-start;">
             <a 
-              href={`/posts/${post.slug}`}
+              href={`/astro-blog/posts/${post.slug}`}
               style="display: inline-flex; align-items: center; gap: 0.5rem; color: white; font-weight: 500; text-decoration: none; transition: opacity 0.2s ease;"
               onmouseover="this.style.opacity='0.8'"
               onmouseout="this.style.opacity='1'"
